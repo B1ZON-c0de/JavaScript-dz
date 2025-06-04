@@ -13,7 +13,6 @@ function getSumOfNumbers(number, type = 'odd') {
 
 // Function of select cycle
 function getSum(num, type) {
-  let res = 0;
   if (type === '') return getCycleAll(num);
   if (type === 'even') return getCycleEven(num);
   if (type === 'odd') return getCycleOdd(num);
