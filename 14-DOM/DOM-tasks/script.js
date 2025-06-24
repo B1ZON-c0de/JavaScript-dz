@@ -46,7 +46,9 @@ function renderTasks(arrTasks, tasksList) {
 function completeTask(e) {
   const textSpans = document.querySelectorAll('.task-item__text');
   const task = tasks.find((el) => el.id === e.target.id.replace('task-', ''));
-  const taskText = [...textSpans].find((el) => el.innerText === task.text);
+  const taskText = [...textSpans].find(
+    (el) => el.closest('.task-item').dataset.taskId === task.id
+  );
   task.completed = e.target.checked;
   task.completed
     ? (taskText.style.textDecoration = 'line-through')
