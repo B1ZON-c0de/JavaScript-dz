@@ -1,0 +1,45 @@
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.pageHeading {
+  margin: 0 0 0.5rem;
+  font-size: 25px;
+  font-weight: bold;
+}
+
+.noMarginText {
+  margin: 0;
+}
+
+.currentValue {
+  font-weight: bold;
+}
+
+.buttonsContainer {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.listContainer {
+  margin-top: 1.5rem;
+}
+
+.listHeading {
+  font-size: 20px;
+  font-weight: bold;
+  margin: 0 0 0.5rem;
+}
+
+.list {
+  text-align: left;
+  margin: 0 auto;
+  max-width: 300px;
+}
+
+.listItem:not(:last-child) {
+  margin-bottom: 0.5em;
+}
