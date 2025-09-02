@@ -1,0 +1,10 @@
+@import 'tailwindcss';
+@plugin "daisyui" {
+  theme: 'synthwave' --default;
+}
+
+@layer base {
+  h1 {
+    @apply font-bold text-3xl my-3;
+  }
+}
