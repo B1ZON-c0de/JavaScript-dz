@@ -1,0 +1,28 @@
+{
+  "todos": [
+    {
+      "id": "1758831767096",
+      "pending": false,
+      "text": "Первая задача",
+      "completed": false
+    },
+    {
+      "id": "1758831773113",
+      "pending": false,
+      "text": "Вторая задача",
+      "completed": false
+    },
+    {
+      "id": "1758831778564",
+      "pending": false,
+      "text": "Третья задача",
+      "completed": false
+    },
+    {
+      "id": "1758832546321",
+      "pending": false,
+      "text": "\"Be careful!\"",
+      "completed": false
+    }
+  ]
+}
