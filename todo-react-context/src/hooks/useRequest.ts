@@ -13,10 +13,10 @@ export function useRequest() {
       const res = await axios.get<ITodo[]>(BASE_URL);
       dispatch({ type: 'FETCH_SUCCESS', payload: res.data });
     } catch (e) {
+      dispatch({ type: 'FETCH_ERROR', payload: 'Не удалось получить задачи' });
       if (e instanceof Error) {
         throw new Error('Не удалось получить задачи');
       }
-      dispatch({ type: 'FETCH_ERROR', payload: 'Не удалось получить задачи' });
     }
   };
 
@@ -31,13 +31,13 @@ export function useRequest() {
       await axios.post(BASE_URL, newTodo);
       dispatch({ type: 'ADD_SUCCESS', payload: newTodo });
     } catch (e) {
-      if (e instanceof Error) {
-        throw new Error('Не удалось добавить задачу');
-      }
       dispatch({
         type: 'FETCH_ERROR',
         payload: 'Не удалось добавить задачу',
       });
+      if (e instanceof Error) {
+        throw new Error('Не удалось добавить задачу');
+      }
     }
   };
 
@@ -47,11 +47,11 @@ export function useRequest() {
       await axios.delete(`${BASE_URL}/${id}`);
       dispatch({ type: 'DELETE_SUCCESS', payload: { id } });
     } catch (e) {
+      dispatch({ type: 'FETCH_ERROR', payload: 'Не удалось удалить задачу' });
+      dispatch({ type: 'SET_PENDING', payload: { id, pending: false } });
       if (e instanceof Error) {
         throw new Error('Не удалось удалить задачу');
       }
-      dispatch({ type: 'FETCH_ERROR', payload: 'Не удалось удалить задачу' });
-      dispatch({ type: 'SET_PENDING', payload: { id, pending: false } });
     }
   };
 
@@ -61,14 +61,14 @@ export function useRequest() {
       await axios.patch(`${BASE_URL}/${id}`, { completed: true });
       dispatch({ type: 'COMPLETE_SUCCESS', payload: { id } });
     } catch (e) {
-      if (e instanceof Error) {
-        throw new Error('Не удалось изменить задачу');
-      }
       dispatch({
         type: 'FETCH_ERROR',
         payload: 'Не удалось изменить задачу',
       });
       dispatch({ type: 'SET_PENDING', payload: { id, pending: false } });
+      if (e instanceof Error) {
+        throw new Error('Не удалось изменить задачу');
+      }
     }
   };
 
