@@ -1,0 +1,66 @@
+@import 'tailwindcss';
+@plugin "daisyui" {
+  themes: todo --default;
+}
+
+@plugin "daisyui/theme" {
+  name: 'todo';
+  default: true;
+  prefersdark: false;
+  color-scheme: 'light';
+  --color-base-100: oklch(97% 0.017 320.058);
+  --color-base-200: oklch(95% 0.037 318.852);
+  --color-base-300: oklch(90% 0.076 319.62);
+  --color-base-content: oklch(40% 0.17 325.612);
+  --color-primary: oklch(65% 0.241 354.308);
+  --color-primary-content: oklch(97% 0.014 343.198);
+  --color-secondary: oklch(79% 0.184 86.047);
+  --color-secondary-content: oklch(98% 0.026 102.212);
+  --color-accent: oklch(60% 0.25 292.717);
+  --color-accent-content: oklch(96% 0.016 293.756);
+  --color-neutral: oklch(29% 0.136 325.661);
+  --color-neutral-content: oklch(97% 0.017 320.058);
+  --color-info: oklch(70% 0.165 254.624);
+  --color-info-content: oklch(28% 0.091 267.935);
+  --color-success: oklch(79% 0.209 151.711);
+  --color-success-content: oklch(26% 0.065 152.934);
+  --color-warning: oklch(75% 0.183 55.934);
+  --color-warning-content: oklch(26% 0.079 36.259);
+  --color-error: oklch(71% 0.202 349.761);
+  --color-error-content: oklch(28% 0.109 3.907);
+  --radius-selector: 0rem;
+  --radius-field: 1rem;
+  --radius-box: 2rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 1px;
+  --depth: 0;
+  --noise: 1;
+}
+
+@layer utilities {
+  .center {
+    @apply relative z-10 flex items-center justify-center h-[100vh];
+  }
+}
+
+@layer base {
+  h1 {
+    @apply text-5xl font-bold;
+  }
+  ul {
+    @apply border-b-5 flex flex-col bg-base-100  rounded-md text-lg divide-y divide-base-300/50;
+  }
+  li {
+    @apply hover:text-accent-content first:hover:rounded-t-md last:hover:rounded-b-md  px-4 flex justify-between  items-center py-3 hover:scale-[1.02]  transition-all hover:bg-accent cursor-pointer hover:shadow-2xl;
+  }
+}
+
+@layer components {
+  .card-todo {
+    @apply p-7 bg-base-300  rounded-xl shadow-xl w-150 h-auto flex flex-col gap-6;
+  }
+  .no-todos {
+    @apply flex justify-center py-5;
+  }
+}
