@@ -1,57 +1,34 @@
-import Background from './components/Background';
-import { FieldContainer, InformationContainer } from './components/';
-import { useEffect, useState } from 'react';
+import Background from "./components/Background";
+import { FieldContainer, InformationContainer } from "./components/";
+import { resetGame } from "./store/actions";
+import { useStore } from "./hooks/useStore.ts";
+import { store } from "./store/store.ts";
+
 function App() {
-  const [currentPlayer, setCurrentPLayer] = useState<'X' | 'O'>('X');
-  const [isGameEnded, setIsGameEnded] = useState(false);
-  const [isDraw, setIsDraw] = useState(false);
-  const [field, setField] = useState(['', '', '', '', '', '', '', '', '']);
-  const [isReset, setIsReset] = useState(false);
-
-  useEffect(() => {
-    if (isGameEnded && !field.includes('')) {
-      setIsDraw(true);
-    }
-  }, [isGameEnded]);
-
-  const setFieldArr = (arr: string[], nextMark: 'X' | 'O') => {
-    setField(arr);
-    setCurrentPLayer(nextMark);
+  const handleReset = () => {
+    store.dispatch(resetGame());
   };
 
-  const setIsEnd = (isDraw: boolean, isEnd: boolean) => {
-    setIsDraw(isDraw);
-    setIsGameEnded(isEnd);
-  };
-
-  const resetGame = () => {
-    setCurrentPLayer('X');
-    setIsGameEnded(false);
-    setIsDraw(false);
-    setField(['', '', '', '', '', '', '', '', '']);
-    setIsReset(!isReset);
-  };
+  const state = useStore();
 
   return (
     <>
       <Background>
         <InformationContainer
-          isEnd={isGameEnded}
-          isDraw={isDraw}
-          currentMark={currentPlayer}
+          isEnd={state.isGameEnded}
+          isDraw={state.isDraw}
+          currentMark={state.currentPlayer}
+          winner={state.winner}
         />
         <FieldContainer
-          field={field}
-          setFieldArr={setFieldArr}
-          currentMark={currentPlayer}
-          isDraw={isDraw}
-          isEnd={isGameEnded}
-          setIsEnd={setIsEnd}
-          reset={isReset}
+          field={state.field}
+          currentMark={state.currentPlayer}
+          isDraw={state.isDraw}
+          isEnd={state.isGameEnded}
         />
         <button
           className="btn btn-xl btn-secondary btn-soft"
-          onClick={resetGame}
+          onClick={handleReset}
         >
           Начать заново
         </button>
