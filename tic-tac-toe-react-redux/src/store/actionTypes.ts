@@ -1,0 +1,6 @@
+export const ACTION_TYPES = {
+    MAKE_MOVE: 'MAKE_MOVE',
+    RESET_GAME: 'RESET_GAME',
+    CHECK_WINNER: 'CHECK_WINNER',
+    SET_GAME_END: 'SET_GAME_END'
+} as const;

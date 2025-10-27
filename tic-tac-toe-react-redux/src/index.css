@@ -1,0 +1,13 @@
+@import 'tailwindcss';
+@plugin 'daisyui' {
+  themes: synthwave --default;
+}
+
+@layer components {
+  .hr-x {
+    @apply absolute top-4 bottom-4 w-3 glass rounded-full bg-white/30 opacity-60;
+  }
+  .hr-y {
+    @apply absolute left-4 right-4 h-3 glass rounded-full bg-white/30 opacity-60;
+  }
+}
