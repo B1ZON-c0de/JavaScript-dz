@@ -51,9 +51,6 @@ const todosSlice = createSlice({
 
             state.filteredItems = filtered;
         },
-        clearError: (state) => {
-            state.error = '';
-        },
     },
     extraReducers: (builder) => {
         builder
@@ -141,5 +138,5 @@ const todosSlice = createSlice({
     },
 });
 
-export const { setSearch, toggleSort, filterTodos, clearError } = todosSlice.actions;
+export const { setSearch, toggleSort, filterTodos } = todosSlice.actions;
 export default todosSlice.reducer;
