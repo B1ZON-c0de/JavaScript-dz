@@ -1,60 +1,72 @@
-import { useRequest } from './useRequestTodos';
-import type { ITodo } from '../types/types';
+import { useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from './redux';
+import {
+  setSearch,
+  toggleSort,
+  filterTodos,
+
+} from '../store/todoSlice.ts';
+import {  fetchTodos,
+  completeTodo,
+  addTodo,
+  deleteTodo,
+  updateTodo} from '../store/todoThunk.ts';
 import { useDebounce } from './useDebounce';
-import { useEffect, useMemo, useState, type ChangeEvent } from 'react';
 
 export function useTodos() {
-  const [todos, setTodos] = useState<ITodo[]>([]);
-  const [search, setSearch] = useState('');
-  const [isSorted, setIsSorted] = useState(false);
+  const dispatch = useAppDispatch();
   const {
-    value,
+    items: todos,
+    filteredItems,
+    search,
+    isSorted,
     isLoading,
     error,
-    completeTodo,
-    addTodo,
-    deleteTodo,
-    updateTodo,
-  } = useRequest();
+  } = useAppSelector((state) => state.todos);
 
-  const handleSearchInput = (e: ChangeEvent<HTMLInputElement>) => {
-    setSearch(e.target?.value);
+  const debouncedSearch = useDebounce(search, 700);
+
+  const handleSearchInput = (value: string) => {
+    dispatch(setSearch(value));
   };
-
-  const debouncedValue = useDebounce(search, 700);
-
-  const displayedTodos = useMemo(() => {
-    const newTodos = [...todos];
-    if (isSorted) {
-      newTodos.sort((a, b) => a.text.localeCompare(b.text));
-    }
-    return newTodos;
-  }, [todos, isSorted]);
-
-  const filteredTodos = useMemo(() => {
-    if (!debouncedValue) return displayedTodos;
-    const newTodos = [...displayedTodos].filter((todo) =>
-      todo.text.toLowerCase().includes(debouncedValue.toLowerCase())
-    );
-    return newTodos;
-  }, [displayedTodos, debouncedValue]);
 
   const handleButtonSort = () => {
-    setIsSorted(!isSorted);
+    dispatch(toggleSort());
   };
 
+  const handleCompleteTodo = (id: string) => {
+    dispatch(completeTodo(id));
+  };
+
+  const handleAddTodo = (text: string) => {
+    dispatch(addTodo(text));
+  };
+
+  const handleDeleteTodo = (id: string) => {
+    dispatch(deleteTodo(id));
+  };
+
+  const handleUpdateTodo = (id: string, newText: string) => {
+    dispatch(updateTodo({ id, newText }));
+  };
+
+
   useEffect(() => {
-    setTodos(value);
-  }, [value]);
+    dispatch(filterTodos());
+  }, [debouncedSearch, isSorted, todos, dispatch]);
+
+  useEffect(() => {
+    dispatch(fetchTodos());
+  }, [dispatch]);
 
   return {
-    todos: filteredTodos,
-    updateTodo,
-    completeTodo,
+    todos: filteredItems,
+    updateTodo: handleUpdateTodo,
+    completeTodo: handleCompleteTodo,
     isLoading,
     error,
-    addTodo,
-    deleteTodo,
+    addTodo: handleAddTodo,
+    deleteTodo: handleDeleteTodo,
     handleButtonSort,
     handleSearchInput,
     search,

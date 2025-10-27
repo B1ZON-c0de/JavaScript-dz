@@ -3,21 +3,25 @@ import InputSearchLayout from './InputSearchLayout';
 
 interface IProps {
   search: string;
-  handleSearchInput: (e: ChangeEvent<HTMLInputElement>) => void;
+  handleSearchInput: (value: string) => void;
   handleButtonSort: () => void;
 }
 
 const InputSearchContainer = ({
-  handleButtonSort,
-  handleSearchInput,
-  search,
-}: IProps) => {
+                                handleButtonSort,
+                                handleSearchInput,
+                                search,
+                              }: IProps) => {
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    handleSearchInput(e.target.value);
+  };
+
   return (
-    <InputSearchLayout
-      search={search}
-      handleSearchInput={handleSearchInput}
-      handleButtonSort={handleButtonSort}
-    />
+      <InputSearchLayout
+          search={search}
+          handleSearchInput={handleInputChange}
+          handleButtonSort={handleButtonSort}
+      />
   );
 };
 
