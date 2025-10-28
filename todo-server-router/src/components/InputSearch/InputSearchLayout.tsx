@@ -1,17 +1,10 @@
-import { Search } from 'lucide-react';
-import type { ChangeEvent } from 'react';
+import { Search } from "lucide-react";
+import { useAppDispatch, useAppSelector } from "../../hooks/storeHooks.ts";
+import { setSearchTerm, toggleSorted } from "../../store/todoSlice.ts";
 
-interface IProps {
-  search: string;
-  handleSearchInput: (e: ChangeEvent<HTMLInputElement>) => void;
-  handleButtonSort: () => void;
-}
-
-const InputSearchLayout = ({
-  handleButtonSort,
-  handleSearchInput,
-  search,
-}: IProps) => {
+const InputSearchLayout = () => {
+  const search = useAppSelector((state) => state.todos.search);
+  const dispatch = useAppDispatch();
   return (
     <div className="flex justify-between  gap-3">
       <label
@@ -22,14 +15,12 @@ const InputSearchLayout = ({
         <input
           type="text"
           value={search}
-          onChange={handleSearchInput}
+          onChange={(e) => dispatch(setSearchTerm(e.target.value))}
           placeholder="Поиск..."
         />
       </label>
       <button
-        onClick={() => {
-          handleButtonSort();
-        }}
+        onClick={() => dispatch(toggleSorted())}
         className="btn btn-neutral focus:border-none border-none text-lg font-semibold"
       >
         Сортировать А-Я

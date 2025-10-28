@@ -51,6 +51,9 @@
   ul {
     @apply border-b-5 flex flex-col bg-base-100  rounded-md text-lg divide-y divide-base-300/50;
   }
+  li {
+    @apply hover:text-accent-content first:hover:rounded-t-md last:hover:rounded-b-md  px-4 flex justify-between  items-center py-3 hover:scale-[1.02]  transition-all hover:bg-accent cursor-pointer hover:shadow-2xl;
+  }
 }
 
 @layer components {
@@ -59,8 +62,5 @@
   }
   .no-todos {
     @apply flex justify-center py-5;
-  }
-  .task-element {
-    @apply hover:text-accent-content first:hover:rounded-t-md last:hover:rounded-b-md  px-4 flex justify-between  items-center py-3 hover:scale-[1.02]  transition-all hover:bg-accent cursor-pointer hover:shadow-2xl;
   }
 }

@@ -1,20 +1,20 @@
-import { useState } from 'react';
-import InputAddLayout from './InputAddLayout';
+import { useState } from "react";
+import InputAddLayout from "./InputAddLayout";
+import { useAppDispatch } from "../../hooks/storeHooks.ts";
+import { addTodo } from "../../store/todoThunk.ts";
 
-interface IProps {
-  addTodo: (val: string) => void;
-}
+const InputAddContainer = () => {
+  const [inputVal, setInputVal] = useState("");
+  const btnIsDisabled = inputVal.trim() === "";
 
-const InputAddContainer = ({ addTodo }: IProps) => {
-  const [inputVal, setInputVal] = useState('');
-  const btnIsDisabled = inputVal.trim() === '';
+  const dispatch = useAppDispatch();
 
   const handlerInput = (val: string) => {
     setInputVal(val);
   };
   const handleButton = () => {
-    addTodo(inputVal);
-    setInputVal('');
+    dispatch(addTodo(inputVal));
+    setInputVal("");
   };
   return (
     <InputAddLayout

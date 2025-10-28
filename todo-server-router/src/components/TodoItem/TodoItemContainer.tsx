@@ -1,31 +1,31 @@
-import TodoItemLayout from './TodoItemLayout';
+import TodoItemLayout from "./TodoItemLayout";
+import { useAppDispatch } from "../../hooks/storeHooks.ts";
+import { completeTodo, deleteTodo } from "../../store/todoThunk.ts";
 
 interface IProps {
   id: string;
   text: string;
   completed: boolean;
   pending?: boolean;
-  completeTodo: (id: string) => void;
 }
 
-const TodoItemContainer = ({
-  id,
-  text,
-  completed,
-  completeTodo,
-  pending,
-}: IProps) => {
+const TodoItemContainer = ({ id, text, completed, pending }: IProps) => {
+  const dispatch = useAppDispatch();
   const handleTodo = () => {
-    completeTodo(id);
+    dispatch(completeTodo(id));
+  };
+
+  const handleDeleteButton = () => {
+    dispatch(deleteTodo(id));
   };
 
   return (
     <TodoItemLayout
-      id={id}
       pending={pending}
       handleTodo={handleTodo}
       text={text}
       completed={completed}
+      handleDeleteButton={handleDeleteButton}
     />
   );
 };

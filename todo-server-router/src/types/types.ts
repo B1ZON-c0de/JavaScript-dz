@@ -4,3 +4,11 @@ export interface ITodo {
   completed: boolean;
   pending?: boolean;
 }
+
+export interface ITodoStore {
+  tasks: ITodo[];
+  status: "idle" | "pending" | "completed" | "failed";
+  error?: string | null;
+  search: string;
+  isSorted: boolean;
+}

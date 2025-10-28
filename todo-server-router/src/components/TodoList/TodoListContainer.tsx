@@ -1,38 +1,30 @@
-import type { ChangeEvent } from 'react';
-import type { ITodo } from '../../types/types';
-import TodoListLayout from './TodoListLayout';
-interface IProps {
-  todos: ITodo[];
-  isLoading: boolean;
-  error: string;
-  search: string;
-  handleSearchInput: (e: ChangeEvent<HTMLInputElement>) => void;
-  handleButtonSort: () => void;
-  completeTodo: (id: string) => void;
-  addTodo: (val: string) => void;
-}
-const TodoListContainer = ({
-  todos,
-  isLoading,
-  error,
-  completeTodo,
-  addTodo,
-  handleButtonSort,
-  handleSearchInput,
-  search,
-}: IProps) => {
-  return (
-    <TodoListLayout
-      completeTodo={completeTodo}
-      todos={todos}
-      isLoading={isLoading}
-      error={error}
-      addTodo={addTodo}
-      handleButtonSort={handleButtonSort}
-      handleSearchInput={handleSearchInput}
-      search={search}
-    />
-  );
+import { useMemo } from "react";
+import { useDebounce } from "../../hooks/useDebounce.ts";
+import TodoListLayout from "./TodoListLayout";
+import { useAppSelector } from "../../hooks/storeHooks.ts";
+
+const TodoListContainer = () => {
+  const search = useAppSelector((state) => state.todos.search);
+  const isSorted = useAppSelector((state) => state.todos.isSorted);
+  const tasks = useAppSelector((state) => state.todos.tasks);
+
+  const debouncedValue = useDebounce(search, 700);
+
+  const displayedTodos = useMemo(() => {
+    const newTodos = [...tasks];
+    if (isSorted) {
+      newTodos.sort((a, b) => a.text.localeCompare(b.text));
+    }
+    return newTodos;
+  }, [tasks, isSorted]);
+
+  const filteredTodos = useMemo(() => {
+    if (!debouncedValue) return displayedTodos;
+    return [...displayedTodos].filter((task) =>
+      task.text.toLowerCase().includes(debouncedValue.toLowerCase()),
+    );
+  }, [displayedTodos, debouncedValue]);
+  return <TodoListLayout todos={filteredTodos} />;
 };
 
 export default TodoListContainer;

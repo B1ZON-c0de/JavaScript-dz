@@ -1,76 +1,66 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
-import { type ITodo } from '../types/types.ts';
+import { createAppAsyncThunk } from "./withTypes.ts";
+import axios from "axios";
 
-const API_BASE = 'http://localhost:3000/todos';
-
-export const fetchTodos = createAsyncThunk(
-    'todos/fetchTodos',
-    async (_, { rejectWithValue }) => {
-        try {
-            const response = await axios.get(API_BASE);
-            return response.data;
-        } catch (error) {
-            console.log("Ошибка: "+ error)
-            return rejectWithValue('Не удалось получить задачи');
-        }
+export const fetchTodos = createAppAsyncThunk(
+  "todos/fetchTodos",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await axios.get("http://localhost:3000/todos");
+      return response.data;
+    } catch (e) {
+      if (e instanceof Error) {
+        return rejectWithValue("Не удалось получить задачи");
+      }
     }
+  },
 );
 
-export const completeTodo = createAsyncThunk(
-    'todos/completeTodo',
-    async (id: string, { rejectWithValue }) => {
-        try {
-            await axios.patch(`${API_BASE}/${id}`, { completed: true });
-            return id;
-        } catch (error) {
-            console.log("Ошибка: "+ error)
-            return rejectWithValue('Не удалось изменить задачу');
-        }
+export const completeTodo = createAppAsyncThunk(
+  "todos/completeTodo",
+  async (id: string, { rejectWithValue }) => {
+    try {
+      await axios.patch(`http://localhost:3000/todos/${id}`, {
+        completed: true,
+      });
+      return id;
+    } catch (e) {
+      if (e instanceof Error) {
+        return rejectWithValue("Не удалось завершить задачу");
+      }
     }
+  },
 );
 
-export const addTodo = createAsyncThunk(
-    'todos/addTodo',
-    async (text: string, { rejectWithValue }) => {
-        try {
-            const newTodo: ITodo = {
-                id: Date.now().toString(),
-                pending: false,
-                text: text.trim(),
-                completed: false,
-            };
-            await axios.post(API_BASE, newTodo);
-            return newTodo;
-        } catch (error) {
-            console.log("Ошибка: "+ error)
-            return rejectWithValue('Не удалось добавить задачу');
-        }
+export const addTodo = createAppAsyncThunk(
+  "todos/addTodo",
+  async (newText: string, { rejectWithValue }) => {
+    const newTodo = {
+      id: Date.now().toString(),
+      pending: false,
+      text: newText.trim(),
+      completed: false,
+    };
+    try {
+      await axios.post(`http://localhost:3000/todos/`, newTodo);
+      return newTodo;
+    } catch (e) {
+      if (e instanceof Error) {
+        return rejectWithValue("Не удалось добавить задачу");
+      }
     }
+  },
 );
 
-export const deleteTodo = createAsyncThunk(
-    'todos/deleteTodo',
-    async (id: string, { rejectWithValue }) => {
-        try {
-            await axios.delete(`${API_BASE}/${id}`);
-            return id;
-        } catch (error) {
-            console.log("Ошибка: "+ error)
-            return rejectWithValue('Не удалось удалить задачу');
-        }
+export const deleteTodo = createAppAsyncThunk(
+  "todos/deleteTodo",
+  async (id: string, { rejectWithValue }) => {
+    try {
+      await axios.delete(`http://localhost:3000/todos/${id}`);
+      return id;
+    } catch (e) {
+      if (e instanceof Error) {
+        return rejectWithValue("Не удалось удалить задачу");
+      }
     }
-);
-
-export const updateTodo = createAsyncThunk(
-    'todos/updateTodo',
-    async ({ id, newText }: { id: string; newText: string }, { rejectWithValue }) => {
-        try {
-            await axios.patch(`${API_BASE}/${id}`, { text: newText });
-            return { id, newText };
-        } catch (error) {
-            console.log("Ошибка: "+ error)
-            return rejectWithValue('Не удалось изменить поле задачи');
-        }
-    }
+  },
 );

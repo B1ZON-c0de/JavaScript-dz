@@ -1,48 +1,49 @@
-import { Link } from 'react-router-dom';
+import { Trash2 } from 'lucide-react';
 
 interface IProps {
-  id: string;
   text: string;
   completed: boolean;
   pending?: boolean;
   handleTodo: () => void;
+  handleDeleteButton: () => void;
 }
 const TodoItemLayout = ({
-  id,
   text,
   completed,
   handleTodo,
   pending,
+  handleDeleteButton,
 }: IProps) => {
   return (
-    <li className={`${completed && 'bg-success/15 text-neutral'}`}>
-      <Link
-        className="task-element"
-        to={`task/${id}`}
+    <li
+      onClick={handleTodo}
+      className={`${completed && 'bg-success/15 text-neutral'}`}
+    >
+      <div>
+        <input
+          type="checkbox"
+          className="mr-10 checkbox text-primary"
+          checked={completed}
+          onChange={handleTodo}
+          disabled={pending}
+        />
+        <span
+          className={`font-semibold ${completed && 'line-through opacity-75'}`}
+        >
+          {text}
+        </span>
+      </div>
+
+      <button
+        disabled={pending}
         onClick={(e) => {
-          const target = e.target as HTMLElement;
-          if (target.closest('input[type="checkbox"]')) {
-            e.preventDefault();
-          }
+          e.stopPropagation();
+          handleDeleteButton();
         }}
+        className="btn btn-circle btn-error"
       >
-        <div>
-          <input
-            type="checkbox"
-            className="mr-10 checkbox text-primary"
-            checked={completed}
-            onChange={handleTodo}
-            disabled={pending}
-          />
-          <span
-            className={`font-semibold ${
-              completed && 'line-through opacity-75'
-            }`}
-          >
-            {text.length > 40 ? `${text.slice(0, 39)}...` : text}
-          </span>
-        </div>
-      </Link>
+        <Trash2 color="#500323" />
+      </button>
     </li>
   );
 };
