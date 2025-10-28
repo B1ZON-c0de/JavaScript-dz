@@ -1,0 +1,22 @@
+{
+  "todos": [
+    {
+      "id": "1761659946823",
+      "pending": false,
+      "text": "Первая задача",
+      "completed": true
+    },
+    {
+      "id": "1761659953815",
+      "pending": false,
+      "text": "Вторая задача",
+      "completed": false
+    },
+    {
+      "id": "1761659958478",
+      "pending": false,
+      "text": "Третья задача",
+      "completed": false
+    }
+  ]
+}
